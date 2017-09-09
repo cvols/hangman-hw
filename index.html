@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hangman</title>
+</head>
+
+<body>
+    <div id="game-started">Press spacebar to get started</div>
+    <br>
+    <div>Guesses left: <span id="guess-left"></span></div>
+    <br>
+    <div>Guessed letters: <span id="user-guesses"></span></div>
+    <br>
+    <div>Guess this word: <span id="random-word"></span></div>
+    <br>
+    <div>Wins: <span id="wins"></span></div>
+    <br>
+    <div>Losses: <span id="losses"></div>
+    <br>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    var wins = 0;
+    var losses = 0;
+    var guessesLeft = 10;
+    var guessesSoFar = [];
+
+    var words = [
+        ["b", "u", "d"],
+        ["c", "o", "o", "r", "s"],
+        ["m", "i", "l", "l", "e", "r"]
+    ];
+
+    // create random word
+    var randomWord = words[Math.floor(Math.random() * words.length)];
+
+    // print out underscore blanks
+	for (var i = 0; i < randomWord.length; i++) {
+	    randomWord[i] = "_ ";
+	};
+
+	// print guessesLeft, wins, losses, and the randomWord to the screen
+    document.getElementById('guess-left').innerHTML = guessesLeft;
+    document.getElementById('wins').innerHTML = wins;
+    document.getElementById('losses').innerHTML = losses;
+	document.getElementById('random-word').innerHTML = randomWord.join(' '); // take away commas from array
+
+ 	// if spacebar is pressed then start game 
+	onkeypress = function(event) {
+		if (event.keyCode == 32) {
+			document.getElementById('game-started').innerHTML = 'Game Started!';
+
+		// getting key press
+	    document.onkeyup = function(event) {
+
+	    // setting key press to var letter
+        var letter = String.fromCharCode(event.keyCode).toLowerCase();
+
+        for (var i = 0; i < randomWord.length; i++) {
+            if (randomWord[i] == letter) {
+                alert('you did it');
+            }
+        }
+
+        // if letter is not already in guessesSoFar then add letter to array and print to screen and take away commas
+        if (guessesSoFar.indexOf(letter) == -1) {
+        	guessesSoFar.push(letter);
+        	document.getElementById('user-guesses').innerHTML = guessesSoFar.join(' ');
+            document.getElementById('guess-left').innerHTML = guessesLeft--;
+			}
+		}
+     	}
+	};  
+        
+
+    function win() {
+        if (guessesLeft > 0) {
+            wins++;
+            document.getElementById('wins').innerHTML = win();
+        }
+    };
+
+    function lose() {
+        if (guessesLeft = 0) {
+            losses++;
+            document.getElementById('losses').innerHTML = lose();
+        }
+    };
+
+    
+
+   
+
+    
+    </script>
+</body>
+
+</html>
