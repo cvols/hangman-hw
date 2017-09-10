@@ -6,93 +6,113 @@
 </head>
 
 <body>
-    <div id="game-started">Press spacebar to get started</div>
+    <h1>Hangman</h1>
     <br>
-    <div>Guesses left: <span id="guess-left"></span></div>
-    <br>
-    <div>Guessed letters: <span id="user-guesses"></span></div>
-    <br>
-    <div>Guess this word: <span id="random-word"></span></div>
-    <br>
-    <div>Wins: <span id="wins"></span></div>
-    <br>
-    <div>Losses: <span id="losses"></div>
-    <br>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-
-    var wins = 0;
-    var losses = 0;
-    var guessesLeft = 10;
-    var guessesSoFar = [];
-
-    var words = [
-        ["b", "u", "d"],
-        ["c", "o", "o", "r", "s"],
-        ["m", "i", "l", "l", "e", "r"]
+    <p> Word to Guess: <span id="correctGuess"></span></p>
+    <p> Wrong Letters: <span id="wrongLetters"></span></p>
+    <p> Guesses Left: <span id="guessesLeft"></span></p>
+    <p> Wins: <span id="winCounter"></span></p>
+    <p> Losses: <span id="lossCounter"></span></p>
+    <script>
+    //Variables
+    var colors = [
+        ["r", "e", "d"],
+        ["g", "r", "e", "e", "n"]
     ];
 
-    // create random word
-    var randomWord = words[Math.floor(Math.random() * words.length)];
+    var letters = [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z"
+    ];
 
-    // print out underscore blanks
-	for (var i = 0; i < randomWord.length; i++) {
-	    randomWord[i] = "_ ";
-	};
+    var guessesLeft = 7;
+    var wrongLetters = [];
+    var newColor;
+    var letter;
+    var wins = 0;
+    var losses = 0;
+    var blanks;
 
-	// print guessesLeft, wins, losses, and the randomWord to the screen
-    document.getElementById('guess-left').innerHTML = guessesLeft;
-    document.getElementById('wins').innerHTML = wins;
-    document.getElementById('losses').innerHTML = losses;
-	document.getElementById('random-word').innerHTML = randomWord.join(' '); // take away commas from array
+    function reload() {
+        document.getElementById('guessesLeft').innerHTML = guessesLeft;
+        document.getElementById('winCounter').innerHTML = wins;
+        document.getElementById('lossCounter').innerHTML = losses;
+    };
+    reload();
 
- 	// if spacebar is pressed then start game 
-	onkeypress = function(event) {
-		if (event.keyCode == 32) {
-			document.getElementById('game-started').innerHTML = 'Game Started!';
+    //computer choice randomizer 
+    function pickColor() {
+        newColor = colors[Math.floor(Math.random() * 2)];
+        console.log(newColor);
+    };
+    pickColor();
 
-		// getting key press
-	    document.onkeyup = function(event) {
+    //User hits key to choose letters
+    document.onkeyup = function(event) {
+        letter = String.fromCharCode(event.keyCode).toLowerCase(); // capture key press
+        console.log(letter);
 
-	    // setting key press to var letter
-        var letter = String.fromCharCode(event.keyCode).toLowerCase();
+        function letterMatch() {
+            var indexNumber = newColor.indexOf(letter); // find out if letter is in newColor array
+            console.log(indexNumber);
 
-        for (var i = 0; i < randomWord.length; i++) {
-            if (randomWord[i] == letter) {
-                alert('you did it');
+            if (indexNumber > -1) { // if indexNumber >= 0, means letter is in newColor
+
+                for (var i = 0; i < newColor.length; i++) {
+
+                    if (i === indexNumber) { // if i === indexNumber then print that letter to the screen
+
+                        document.getElementById('correctGuess').innerHTML += letter;
+
+
+                    }
+                }
+            } else {
+                wrongLetters.push(letter);
+                document.getElementById('wrongLetters').innerHTML = wrongLetters.join(' ');
+                document.getElementById('guessesLeft').innerHTML = guessesLeft--;
             }
         }
 
-        // if letter is not already in guessesSoFar then add letter to array and print to screen and take away commas
-        if (guessesSoFar.indexOf(letter) == -1) {
-        	guessesSoFar.push(letter);
-        	document.getElementById('user-guesses').innerHTML = guessesSoFar.join(' ');
-            document.getElementById('guess-left').innerHTML = guessesLeft--;
-			}
-		}
-     	}
-	};  
-        
 
-    function win() {
-        if (guessesLeft > 0) {
-            wins++;
-            document.getElementById('wins').innerHTML = win();
+        letterMatch();
+    }
+
+    // create _ for number of letters in newColor array
+    function blanks() {
+        //print out underscore blanks
+        var blanks = new Array(newColor.length);
+        for (var i = 0; i < blanks.length; i++) {
+            blanks[i] = "_ ";
+            document.getElementById('correctGuess').innerHTML = blanks.join(' ');
         }
     };
+    blanks();
 
-    function lose() {
-        if (guessesLeft = 0) {
-            losses++;
-            document.getElementById('losses').innerHTML = lose();
-        }
-    };
-
-    
-
-   
-
-    
     </script>
 </body>
 
