@@ -57,12 +57,9 @@
     var losses = 0;
     var blanks;
 
-    function reload() {
-        document.getElementById('guessesLeft').innerHTML = guessesLeft;
-        document.getElementById('winCounter').innerHTML = wins;
-        document.getElementById('lossCounter').innerHTML = losses;
-    };
-    reload();
+    document.getElementById('guessesLeft').innerHTML = guessesLeft;
+    document.getElementById('winCounter').innerHTML = wins;
+    document.getElementById('lossCounter').innerHTML = losses;
 
     //computer choice randomizer 
     function pickColor() {
@@ -88,7 +85,6 @@
 
                         document.getElementById('correctGuess').innerHTML += letter;
 
-
                     }
                 }
             } else {
@@ -97,8 +93,6 @@
                 document.getElementById('guessesLeft').innerHTML = guessesLeft--;
             }
         }
-
-
         letterMatch();
     }
 
@@ -112,7 +106,7 @@
         }
     };
     blanks();
-
+    
     </script>
 </body>
 
